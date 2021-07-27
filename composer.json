@@ -1,0 +1,19 @@
+{
+    "name": "arklystu/cms",
+    "autoload": {
+        "psr-4": { 
+			"Models\\": "src/models/"
+		}
+    }
+,
+    "authors": [
+        {
+            "name": "minvaitekunas",
+            "email": "minvaitekunas@gmail.com"
+        }
+    ],
+    "require": {
+        "doctrine/orm": "^2.9",
+        "symfony/cache": "^5.3"
+    }
+}
