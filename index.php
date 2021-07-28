@@ -15,10 +15,57 @@ if(isset($_POST['name'])){
     $product->setName($_POST['name']);
     $entityManager->persist($product);
     $entityManager->flush();
-   // redirect_to_root();
+    redirect_to_root();
 }
 
+// Delete product
+if(isset($_GET['delete'])){
+    $user = $entityManager->find('Models\Product', $_GET['delete']);
+    $entityManager->remove($user);
+    $entityManager->flush();
+    redirect_to_root();
+}
+// Update
+if(isset($_POST['update_name'])){
+    $user = $entityManager->find('Models\Product', $_POST['update_id']);
+    $user->setName($_POST['update_name']);
+    $entityManager->flush();
+    redirect_to_root();
+}
+
+
+print("<pre>Find all Products: " . "<br>");
+$products = $entityManager->getRepository('Models\Product')->findAll();
+print("<table>");
+foreach($products as $p)
+    print("<tr>" 
+            . "<td>" . $p->getId()  . "</td>" 
+            . "<td>" . $p->getName() . "</td>" 
+            . "<td><a href=\"?delete={$p->getId()}\">DELETE</a>☢️</td>" 
+            . "<td><a href=\"?updatable={$p->getId()}\">UPDATE</a>♻️</td>"
+        . "</tr>");
+print("</table>"); 
+print("</pre><hr>");
+
+
+if(isset($_GET['updatable'])){
+    $product = $entityManager->find('Models\Product', $_GET['updatable']);
+    print("<pre>Update Product: </pre>");
+    print("
+        <form action=\"\" method=\"POST\">
+            <input type=\"hidden\" name=\"update_id\" value=\"{$product->getId()}\">
+            <label for=\"name\">Product name: </label><br>
+            <input type=\"text\" name=\"update_name\" value=\"{$product->getName()}\"><br>
+            <input type=\"submit\" value=\"Submit\">
+        </form>
+    ");
+    print("<hr>");
+}
+
+
+
 print("<pre>Add new product: " . "</pre>");
+
 ?>
 <form action="" method="POST">
   <label for="name">Product name: </label><br>
