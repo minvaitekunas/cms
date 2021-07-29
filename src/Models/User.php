@@ -1,13 +1,10 @@
-  
 <?php
-namespace Models;
-
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="User")
+ * @ORM\Table(name="users")
  */
 class User
 {
@@ -23,13 +20,22 @@ class User
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     private $address;
-        /** 
+    /** 
+     * 
      * @ORM\Column(type="string") 
      */
-    protected $fullname;
+    protected $name;
 
+
+    public function __construct() {
+        $this->groups = ArrayCollection();
+    }
 }
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="Addresses")
+ */
 class Address
 {
     /** 
@@ -42,5 +48,10 @@ class Address
     /** 
      * @ORM\Column(type="string") 
      */
-    protected $address;
+    protected $addressValue;
+
+    function getAddressValue()
+    {
+        return $this->addressValue;
+    }
 }
